@@ -1,0 +1,384 @@
+<!--
+HDCgroups Redesign — Single-file Responsive Template
+File: index.html
+
+WHAT'S INCLUDED (in this single file):
+- Fully responsive, mobile-first HTML using Tailwind CSS (CDN)
+- Accessible header + mobile navigation
+- Hero section with replaceable background image
+- About / Services / Sectors / Portfolio / Projects / Clients / Contact sections
+- Contact form prepared for Netlify Forms (instructions below) and fallback mailto
+- Performance tips, deployment steps (GitHub Pages / Netlify / cPanel) and DNS notes
+- Instructions to replace content, logo and images
+
+HOW TO PREVIEW LOCALLY:
+1. Save this file as `index.html` in an empty folder.
+2. Add an `images/` subfolder and drop your images there (or edit the <img> src values in the file).
+3. Open the file in a browser (double-click index.html) OR run a static server (recommended):
+   - Python 3: `python -m http.server 8000` then open http://localhost:8000
+
+QUICK DEPLOY OPTIONS (step-by-step condensed):
+- GitHub Pages:
+  1. Create a new public repo, commit this file as `index.html` to the repo root.
+  2. In repo settings -> Pages, choose `main` branch / root and save. Your site will be at `https://<username>.github.io/<repo>/`.
+  3. To use your custom domain, add a file named `CNAME` with your domain and update your domain's DNS: add an A record pointing to GitHub Pages IPs OR a CNAME to `username.github.io`.
+
+- Netlify (easy, supports Netlify forms):
+  1. Drag & drop the folder containing this `index.html` into Netlify Sites dashboard OR connect your repo.
+  2. Netlify will give you a free HTTPS domain. To use your domain, add a custom domain and follow Netlify's DNS instructions.
+  3. For Netlify forms: the provided form has `data-netlify="true"` attribute — no server required.
+
+- cPanel / Traditional hosting:
+  1. Zip files and upload to public_html (or the folder your domain points to) using File Manager/FTP.
+  2. Ensure index.html is in the root of the public folder.
+  3. Make sure your hosting provides HTTPS, or enable Let’s Encrypt if available in cPanel.
+
+IMPROVEMENTS & NEXT STEPS:
+- Replace placeholder images with optimized WebP files (resize to needed sizes, compress).
+- Replace placeholder text and logo with your brand assets.
+- Add Google Analytics / GTM (insert script in head) if needed.
+- Add sitemap.xml and robots.txt for SEO.
+- Use an actual contact backend (Netlify Forms, Formspree, or simple PHP endpoint on cPanel).
+
+---
+END OF README
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HDC Building Solutions — Redesign</title>
+  <meta name="description" content="HDC Building Solutions — Industrial, Infrastructure, Institutional, Commercial, Residential and Pre-Engineered Buildings">
+  <meta name="theme-color" content="#0b72b9">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN (small single-file prototype) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Basic favicon placeholder -->
+  <link rel="icon" href="data:;base64,iVBORw0KGgo="> 
+
+  <style>
+    /* Minor custom styles */
+    :root{--brand:#0b72b9;--accent:#f59e0b}
+    html{scroll-behavior:smooth}
+    .hero-bg{background-position:center;background-size:cover}
+    /* Accessibility focus */
+    a:focus, button:focus, input:focus, textarea:focus{outline:3px solid rgba(11,114,185,0.25);outline-offset:2px}
+  </style>
+</head>
+<body class="antialiased text-gray-800 font-inter leading-normal">
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-4">
+          <a href="#home" class="flex items-center gap-3">
+            <!-- Replace with an SVG logo or image -->
+            <div class="w-10 h-10 rounded-md bg-gradient-to-br from-sky-600 to-blue-400 flex items-center justify-center text-white font-bold">H</div>
+            <div class="hidden sm:block">
+              <span class="font-semibold text-lg">HDC Building Solutions</span>
+              <div class="text-xs text-gray-500">Quality | Safety | Value</div>
+            </div>
+          </a>
+        </div>
+
+        <nav class="hidden md:flex items-center gap-6">
+          <a href="#about" class="hover:text-sky-600">About</a>
+          <a href="#services" class="hover:text-sky-600">What we do</a>
+          <a href="#sectors" class="hover:text-sky-600">Sectors</a>
+          <a href="#portfolio" class="hover:text-sky-600">Portfolio</a>
+          <a href="#projects" class="hover:text-sky-600">Projects</a>
+          <a href="#contact" class="text-white bg-sky-600 hover:bg-sky-700 px-4 py-2 rounded-md">Contact</a>
+        </nav>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
+          <button id="menuBtn" aria-label="Open menu" class="p-2 rounded-md focus:ring-2 focus:ring-sky-300">
+            <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu panel -->
+    <div id="mobileMenu" class="hidden md:hidden border-t">
+      <div class="px-4 pt-4 pb-6 space-y-4">
+        <a href="#about" class="block">About</a>
+        <a href="#services" class="block">What we do</a>
+        <a href="#sectors" class="block">Sectors</a>
+        <a href="#portfolio" class="block">Portfolio</a>
+        <a href="#projects" class="block">Projects</a>
+        <a href="#contact" class="block text-white bg-sky-600 px-4 py-2 rounded-md w-max">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="home">
+    <section class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1581092580496-1c8b6f9b2c0b?auto=format&fit=crop&w=1600&q=80');">
+      <div class="bg-black/40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+          <div class="text-white max-w-3xl">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">We build projects engineered for high functionality</h1>
+            <p class="mt-4 text-lg sm:text-xl text-gray-200">Cost certainty, safety, and timely delivery — industrial, infrastructure, institutional and pre-engineered buildings.</p>
+            <div class="mt-8 flex gap-4">
+              <a href="#contact" class="inline-block bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-md font-medium">Get in touch</a>
+              <a href="#portfolio" class="inline-block bg-white/90 hover:bg-white px-6 py-3 rounded-md font-medium text-sky-700">Our Work</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK FEATURES -->
+    <section class="mt-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 -mt-10">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-semibold text-lg">Affordable Projects</h3>
+          <p class="text-gray-500 mt-2">Handled by experienced professionals focused on cost control and schedule.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-semibold text-lg">Quality & Safety</h3>
+          <p class="text-gray-500 mt-2">Integrated safety standards and quality processes across every stage.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-semibold text-lg">Pre-Engineered Buildings</h3>
+          <p class="text-gray-500 mt-2">Design, fabrication and maintenance support for PEB solutions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="mt-12 bg-gray-50 py-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h2 class="text-2xl font-bold">About HDC Building Solutions</h2>
+          <p class="mt-4 text-gray-600">HDC’s business revolves around principles that have energized builders for more than a century. We deliver cost certainty, quality, safety, and schedule and value the importance of relationships.</p>
+          <ul class="mt-4 space-y-2 text-gray-600 list-disc pl-5">
+            <li>Project management and end-to-end execution</li>
+            <li>Pre-engineered building systems</li>
+            <li>Infrastructure and industrial projects</li>
+          </ul>
+          <a href="#contact" class="inline-block mt-6 bg-sky-600 text-white px-5 py-2 rounded-md">Request Quote</a>
+        </div>
+        <div class="rounded-lg overflow-hidden shadow-lg">
+          <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80" alt="Construction site" class="w-full h-64 object-cover sm:h-80 md:h-64 lg:h-80" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h3 class="text-xl font-semibold">What we do</h3>
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="p-6 bg-white rounded-lg shadow-sm">
+          <h4 class="font-semibold">Design & Engineering</h4>
+          <p class="mt-2 text-gray-500">Structural design, shop drawings, and coordination for efficient buildability.</p>
+        </article>
+        <article class="p-6 bg-white rounded-lg shadow-sm">
+          <h4 class="font-semibold">Project Management</h4>
+          <p class="mt-2 text-gray-500">Experienced PM team managing schedule, resources and procurement.</p>
+        </article>
+        <article class="p-6 bg-white rounded-lg shadow-sm">
+          <h4 class="font-semibold">Fabrication & Erection</h4>
+          <p class="mt-2 text-gray-500">Comprehensive PEB fabrication, supply chain and on-site erection services.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTORS -->
+    <section id="sectors" class="bg-gradient-to-b from-white to-gray-50 py-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h3 class="text-xl font-semibold">Sectors we handle</h3>
+        <p class="text-gray-500 mt-2">Industrial | Infrastructure | Institutional | Commercial | Residential | Pre-Engineered Buildings</p>
+        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+            <div class="text-2xl">🏭</div>
+            <div class="mt-2 text-sm font-medium">Industrial</div>
+          </div>
+          <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+            <div class="text-2xl">🛣️</div>
+            <div class="mt-2 text-sm font-medium">Infrastructure</div>
+          </div>
+          <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+            <div class="text-2xl">🏫</div>
+            <div class="mt-2 text-sm font-medium">Institutional</div>
+          </div>
+          <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+            <div class="text-2xl">🏢</div>
+            <div class="mt-2 text-sm font-medium">Commercial</div>
+          </div>
+          <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+            <div class="text-2xl">🏡</div>
+            <div class="mt-2 text-sm font-medium">Residential</div>
+          </div>
+          <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+            <div class="text-2xl">🔩</div>
+            <div class="mt-2 text-sm font-medium">PEB</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h3 class="text-xl font-semibold">Portfolio</h3>
+      <p class="text-gray-500 mt-2">Some of our highlighted works</p>
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Replace images and texts with real projects -->
+        <div class="bg-white rounded-lg overflow-hidden shadow-md">
+          <img src="https://images.unsplash.com/photo-1581091012184-2f18b6e1f2d5?auto=format&fit=crop&w=1200&q=80" alt="Project 1" class="w-full h-48 object-cover" loading="lazy">
+          <div class="p-4">
+            <h4 class="font-semibold">Industrial Facility - Phase 1</h4>
+            <p class="text-gray-500 text-sm mt-2">Steel structure, MEP coordination and construction management.</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-md">
+          <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80" alt="Project 2" class="w-full h-48 object-cover" loading="lazy">
+          <div class="p-4">
+            <h4 class="font-semibold">Pre-engineered Warehouse</h4>
+            <p class="text-gray-500 text-sm mt-2">Design-to-delivery PEB with rapid erection.</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg overflow-hidden shadow-md">
+          <img src="https://images.unsplash.com/photo-1505691723518-36a8b5d4f8d9?auto=format&fit=crop&w=1200&q=80" alt="Project 3" class="w-full h-48 object-cover" loading="lazy">
+          <div class="p-4">
+            <h4 class="font-semibold">Institutional Campus</h4>
+            <p class="text-gray-500 text-sm mt-2">Turnkey solutions for educational institutions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENTS -->
+    <section id="clients" class="bg-gray-50 py-10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h3 class="text-lg font-semibold">Clients</h3>
+        <p class="text-gray-500 mt-2">Proudly served clients across sectors</p>
+        <div class="mt-6 flex flex-wrap justify-center items-center gap-6">
+          <!-- Replace with client logos -->
+          <div class="w-32 h-12 bg-white rounded-md shadow-sm flex items-center justify-center">Logo</div>
+          <div class="w-32 h-12 bg-white rounded-md shadow-sm flex items-center justify-center">Logo</div>
+          <div class="w-32 h-12 bg-white rounded-md shadow-sm flex items-center justify-center">Logo</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS (optional longer list) -->
+    <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h3 class="text-xl font-semibold">Projects</h3>
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="p-4 bg-white rounded-lg shadow-sm">
+          <h4 class="font-semibold">Project Title</h4>
+          <p class="text-gray-500 mt-2">Short description of the project and achievements.</p>
+        </div>
+        <div class="p-4 bg-white rounded-lg shadow-sm">
+          <h4 class="font-semibold">Project Title</h4>
+          <p class="text-gray-500 mt-2">Short description of the project and achievements.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="bg-white py-12">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-2xl font-semibold">Contact Us</h3>
+          <p class="text-gray-500 mt-2">Get a quote or talk to our team about your next project.</p>
+
+          <div class="mt-6 space-y-4">
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7-5 7 5M5 19h14a2 2 0 002-2V8l-9 6-9-6v9a2 2 0 002 2z"></path></svg>
+              <div>
+                <div class="font-medium">Email</div>
+                <div class="text-sm text-gray-500">info@hdcgroups.in</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a2 2 0 011.789 1.106l.9 1.8A2 2 0 0014.72 8H19a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
+              <div>
+                <div class="font-medium">Phone</div>
+                <div class="text-sm text-gray-500">+91 12345 67890</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- Netlify-ready form. If not using Netlify, remove data-netlify="true" and implement a server endpoint -->
+          <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4 bg-gray-50 p-6 rounded-lg shadow-sm">
+            <input type="hidden" name="form-name" value="contact">
+            <p class="hidden"><label>Don’t fill this out if you're human: <input name="bot-field"></label></p>
+
+            <div>
+              <label class="sr-only" for="name">Name</label>
+              <input id="name" name="name" type="text" required placeholder="Your name" class="w-full rounded-md border-gray-200 p-2">
+            </div>
+
+            <div>
+              <label class="sr-only" for="email">Email</label>
+              <input id="email" name="email" type="email" required placeholder="Email address" class="w-full rounded-md border-gray-200 p-2">
+            </div>
+
+            <div>
+              <label class="sr-only" for="message">Message</label>
+              <textarea id="message" name="message" rows="4" required placeholder="Tell us about your project" class="w-full rounded-md border-gray-200 p-2"></textarea>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <button type="submit" class="bg-sky-600 text-white px-4 py-2 rounded-md">Send message</button>
+              <a href="mailto:info@hdcgroups.in" class="text-sm text-gray-500">Or email us</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-200 py-8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-sm">&copy; <span id="year"></span> HDC Building Solutions. All Rights Reserved.</div>
+        <div class="flex items-center gap-4">
+          <a href="#" class="text-gray-300 hover:text-white text-sm">Privacy</a>
+          <a href="#" class="text-gray-300 hover:text-white text-sm">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let open = false;
+    menuBtn.addEventListener('click', () => {
+      open = !open;
+      mobileMenu.classList.toggle('hidden', !open);
+      // toggle icon
+      const icon = document.getElementById('menuIcon');
+      if (open) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+      } else {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />';
+      }
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('#mobileMenu a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden'); open = false; document.getElementById('menuIcon').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />';
+    }));
+  </script>
+</body>
+</html>
